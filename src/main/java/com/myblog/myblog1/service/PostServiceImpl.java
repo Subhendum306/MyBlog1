@@ -3,25 +3,37 @@ import com.myblog.myblog1.entity.Post;
 import com.myblog.myblog1.exception.ResourceNotFoundException;
 import com.myblog.myblog1.payload.PostDto;
 import com.myblog.myblog1.repository.PostRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PostServiceImpl implements PostService{
+    @Autowired
      private PostRepository postRepository;
+    @Autowired
      public PostServiceImpl(PostRepository postRepository){
          this.postRepository = postRepository;
      }
+     @Autowired
+     private ModelMapper modelMapper;
+    public PostServiceImpl(PostRepository postRepository, ModelMapper modelMapper){
+        this.postRepository=postRepository;
+        this.modelMapper=modelMapper;
+    }
     @Override
     public PostDto createPost(PostDto postDto) {
-        Post post=new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
+         Post post=mapToEntity(postDto);
         Post savePost = postRepository.save(post);
-        //After Saveing the record again try to fetch the data from the database;
-        PostDto dto=new PostDto();
-        dto.setTitle(savePost.getTitle());
-        dto.setDescription(savePost.getDescription());
-        dto.setContent(savePost.getContent());
+        //After Saveing the record again try to fetch the data from the database i.e from Entity class;
+        PostDto dto=mapToDto(savePost);
         return dto;
     }
     @Override
@@ -29,12 +41,32 @@ public class PostServiceImpl implements PostService{
          Post post=postRepository.findById(id).orElseThrow(
                  ()->new ResourceNotFoundException("Post not found with id:"+id)
          );
+         PostDto dto=mapToDto(post);
+        return dto;
+    }
+    @Override
+     public List<PostDto> getAllPost(int pageNo, int pageSize, String sortBy, String sortDir){
+        Sort sort=(sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<Post> pagePost =  postRepository.findAll(pageable);
+        List<Post> content = pagePost.getContent();
+        List<PostDto> postDto = content.stream().map(x -> mapToDto(x)).collect(Collectors.toList());
+         return postDto;
+    }
+     PostDto mapToDto(Post post){
          PostDto dto=new PostDto();
          dto.setId(post.getId());
          dto.setTitle(post.getTitle());
          dto.setDescription(post.getDescription());
          dto.setContent(post.getContent());
-        return dto;
+         return dto;
+    }
+    Post mapToEntity(PostDto postDto){
+         Post post=new Post();
+         post.setId(postDto.getId());
+         post.setTitle(postDto.getTitle());
+         post.setDescription(postDto.getDescription());
+         post.setContent(postDto.getContent());
+         return post;
     }
 }
-
