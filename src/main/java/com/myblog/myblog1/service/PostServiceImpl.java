@@ -40,6 +40,7 @@ public class PostServiceImpl implements PostService{
          PostDto dto=mapToDto(post);
         return dto;
     }
+
     @Override
      public List<PostDto> getAllPost(int pageNo, int pageSize, String sortBy, String sortDir){
         Sort sort=(sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();

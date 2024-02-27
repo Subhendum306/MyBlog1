@@ -43,7 +43,6 @@ public class CommentServiceImpl implements CommentService{
     public void deleteComment(long id) {
         commentRepository.deleteById(id);
     }
-
     @Override
     public CommentDto updateComment(long id, CommentDto commentDto, long postId) {
         Post post = postRepository.findById(postId).orElseThrow(

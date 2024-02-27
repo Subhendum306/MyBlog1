@@ -7,4 +7,5 @@ import java.awt.print.Pageable;
 
 public interface PostRepository extends JpaRepository<Post,Long> {
 
+
 }

@@ -17,6 +17,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;
+
     private String description;
     private String content;
     //One post can have multiple comments

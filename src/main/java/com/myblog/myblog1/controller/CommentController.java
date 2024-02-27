@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/comment")
 public class CommentController {
     private CommentService commentService;
+
     @Autowired
     public CommentController(CommentService commentService) {this.commentService = commentService;}
     //http://localhost:8080/api/comment?postId=1
