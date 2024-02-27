@@ -18,10 +18,6 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService{
     @Autowired
      private PostRepository postRepository;
-    @Autowired
-     public PostServiceImpl(PostRepository postRepository){
-         this.postRepository = postRepository;
-     }
      @Autowired
      private ModelMapper modelMapper;
     public PostServiceImpl(PostRepository postRepository, ModelMapper modelMapper){
@@ -30,11 +26,11 @@ public class PostServiceImpl implements PostService{
     }
     @Override
     public PostDto createPost(PostDto postDto) {
-         Post post=mapToEntity(postDto);
+        Post post=mapToEntity(postDto);
         Post savePost = postRepository.save(post);
-        //After Saveing the record again try to fetch the data from the database i.e from Entity class;
+        //After Saveing the record again try to get the data from the database i.e from Entity class;
         PostDto dto=mapToDto(savePost);
-        return dto;
+       return dto;
     }
     @Override
     public PostDto getPostById(long id){
@@ -53,20 +49,12 @@ public class PostServiceImpl implements PostService{
         List<PostDto> postDto = content.stream().map(x -> mapToDto(x)).collect(Collectors.toList());
          return postDto;
     }
-     PostDto mapToDto(Post post){
-         PostDto dto=new PostDto();
-         dto.setId(post.getId());
-         dto.setTitle(post.getTitle());
-         dto.setDescription(post.getDescription());
-         dto.setContent(post.getContent());
+ PostDto mapToDto(Post post){
+         PostDto dto=modelMapper.map(post,PostDto.class);
          return dto;
     }
-    Post mapToEntity(PostDto postDto){
-         Post post=new Post();
-         post.setId(postDto.getId());
-         post.setTitle(postDto.getTitle());
-         post.setDescription(postDto.getDescription());
-         post.setContent(postDto.getContent());
+ Post mapToEntity(PostDto postDto){
+         Post post=modelMapper.map(postDto,Post.class);
          return post;
     }
 }

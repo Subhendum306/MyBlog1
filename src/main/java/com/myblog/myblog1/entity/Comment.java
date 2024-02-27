@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 @Entity
 @Data
-@Table(name="comments")
+@Table(name="comment")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment {
@@ -16,6 +16,6 @@ public class Comment {
     private String text;
     private String email;
     @ManyToOne
-    @JoinColumn(name="Post_id")
+    @JoinColumn(name="post_id")
     private Post post;
 }

@@ -15,5 +15,4 @@ public class Myblog1Application {
 	public ModelMapper getModelMapper(){
 		return new ModelMapper();
 	}
-
 }

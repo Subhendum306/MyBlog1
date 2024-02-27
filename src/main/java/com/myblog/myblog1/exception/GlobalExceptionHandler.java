@@ -15,7 +15,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      @ExceptionHandler(ResourceNotFoundException.class)
      public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException e, WebRequest webRequest){
 
-         ErrorDetails errorDetails =new ErrorDetails(e.getMessage(),new Date(),webRequest.getDescription(true));
+         ErrorDetails errorDetails =new ErrorDetails(e.getMessage(),
+                                                     new Date(),
+                                                     webRequest.getDescription(true));
          return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
      }
 }
@@ -42,4 +44,3 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   This indicates that an internal server error occurred while processing the request.
   Overall, this code demonstrates how to create a global exception handler using @ControllerAdvice and @ExceptionHandler annotations in Spring MVC.
   It allows for centralized handling of specific exceptions across all controllers in the application, providing consistent error responses to clients.*/
-        
