@@ -33,6 +33,7 @@ public class CommentController {
         CommentDto dto=commentService.updateComment(id,commentDto,postId);
        return new ResponseEntity<> (dto,HttpStatus.OK);
     }
-
 }
+
+
 
