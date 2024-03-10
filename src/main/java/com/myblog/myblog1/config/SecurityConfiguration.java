@@ -1,8 +1,12 @@
 package com.myblog.myblog1.config;
 
+        import com.myblog.myblog1.security.CustomUserDetailsService;
+        import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.context.annotation.Bean;
         import org.springframework.context.annotation.Configuration;
         import org.springframework.http.HttpMethod;
+        import org.springframework.security.authentication.AuthenticationManager;
+        import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
         import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
         import org.springframework.security.config.annotation.web.builders.HttpSecurity;
         import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +21,9 @@ package com.myblog.myblog1.config;
  @EnableWebSecurity
  @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+     @Autowired
+     private CustomUserDetailsService userDetailsService;
+
     @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -33,16 +40,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic();
     }
     @Override
+    protected void configure(AuthenticationManagerBuilder auth)throws Exception{
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+   /* @Override
     @Bean
     protected UserDetailsService userDetailsService(){  /*This method is responsible to store objects in which
      i want to store username and password */
-        UserDetails user1= User.builder().username("pankaj").password(passwordEncoder().encode("password"))
+     /*   UserDetails user1= User.builder().username("pankaj").password(passwordEncoder().encode("password"))
                 .roles("USER").build();
         UserDetails admin= User.builder().username("admin").password(passwordEncoder().encode("admin"))
                 .roles("ADMIN").build();
 
         return new InMemoryUserDetailsManager(user1,admin);
-    }
+    }*/
 }
 /* csrf() :-"cross site Request Forgery" protection is a security features that helps prevent attackers from
 executing unauthorized actions on behalf of an authenticated user.*/
