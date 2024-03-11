@@ -19,7 +19,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                      new Date(),
                                                      webRequest.getDescription(true));
          return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-
      }
 }
 

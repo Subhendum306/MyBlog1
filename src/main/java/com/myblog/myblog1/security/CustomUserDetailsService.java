@@ -1,5 +1,4 @@
 package com.myblog.myblog1.security;
-
 import com.myblog.myblog1.entity.Role;
 import com.myblog.myblog1.entity.User;
 import com.myblog.myblog1.repository.UserRepository;
@@ -22,7 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { //Automatically get the username
         User user = userRepository.findByUsernameOrEmail(username, username).
                 orElseThrow(() -> new UsernameNotFoundException("User not found with username or email:" + username));
-
         return new org.springframework.security.core.userdetails.
                 User(user.getEmail(),user.getPassword(),mapRolesToAuthiorities(user.getRoles()));
     }

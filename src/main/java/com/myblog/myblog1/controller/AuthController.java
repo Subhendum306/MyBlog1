@@ -39,6 +39,7 @@ public class AuthController {
 
         return new ResponseEntity<> ("User signed in Sucessifully",HttpStatus.OK);
 
+
     }
     @PostMapping("/SignUp")
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){

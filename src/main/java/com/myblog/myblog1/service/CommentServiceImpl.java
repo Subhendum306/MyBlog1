@@ -55,7 +55,6 @@ public class CommentServiceImpl implements CommentService{
         c.setId(comment.getId());
         c.setPost(post);
         Comment saveComment = commentRepository.save(c);
-
         return mapToDto(saveComment);
     }
      Comment mapToEntity(CommentDto commentDto){

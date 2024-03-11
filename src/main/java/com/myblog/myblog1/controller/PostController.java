@@ -25,7 +25,6 @@ public class PostController{
       return new ResponseEntity<>(dto,HttpStatus.CREATED);
     }
     //http://localhost:8080/api/post/perticular?id=1
-
     @GetMapping("/perticular")
     public ResponseEntity<PostDto> getPostById(@RequestParam long id){
         PostDto dto = postService.getPostById(id);

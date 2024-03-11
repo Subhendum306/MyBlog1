@@ -38,6 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .httpBasic();
+
     }
     @Override
     protected void configure(AuthenticationManagerBuilder auth)throws Exception{
